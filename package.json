@@ -1,0 +1,17 @@
+{
+  "name": "stripe-checkout-frontend",
+  "version": "1.0.0",
+  "description": "Stripe checkout frontend for GenWise Learning digital courses",
+  "main": "index.html",
+  "scripts": {
+    "dev": "npx serve .",
+    "build": "echo 'Static site - no build required'",
+    "start": "npx serve ."
+  },
+  "keywords": ["stripe", "checkout", "ecommerce", "digital-course"],
+  "author": "GenWise Learning",
+  "license": "MIT",
+  "devDependencies": {
+    "serve": "^14.2.1"
+  }
+}

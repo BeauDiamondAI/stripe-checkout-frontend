@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thank You - Purchase Successful | GenWise Learning</title>
+    <meta name="description" content="Thank you for your purchase! Your digital course access is being prepared.">
+    
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'GA_MEASUREMENT_ID');
+    </script>
+    
+    <!-- Facebook Pixel -->
+    <script>
+        !function(f,b,e,v,n,t,s)
+        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+        n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t,s)}(window, document,'script',
+        'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', 'YOUR_PIXEL_ID');
+        fbq('track', 'PageView');
+    </script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .success-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+            width: 100%;
+            max-width: 600px;
+            text-align: center;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+            color: white;
+            padding: 3rem 2rem;
+            position: relative;
+        }
+        
+        .checkmark {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: pulse 2s infinite;
+        }
+        
+        .checkmark svg {
+            width: 40px;
+            height: 40px;
+            stroke-width: 3;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+        
+        .header p {
+            opacity: 0.95;
+            font-size: 1.2rem;
+        }
+        
+        .content {
+            padding: 2.5rem 2rem;
+        }
+        
+        .order-details {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            text-align: left;
+        }
+        
+        .order-details h3 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+        
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #e1e8ed;
+        }
+        
+        .detail-row:last-child {
+            border-bottom: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: #27ae60;
+        }
+        
+        .next-steps {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .next-steps h3 {
+            color: #856404;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+        
+        .next-steps ul {
+            list-style: none;
+            color: #856404;
+        }
+        
+        .next-steps li {
+            margin-bottom: 0.5rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+        
+        .next-steps li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #27ae60;
+            font-weight: bold;
+        }
+        
+        .support-info {
+            background: #e3f2fd;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .support-info h3 {
+            color: #1565c0;
+            margin-bottom: 1rem;
+        }
+        
+        .support-info p {
+            color: #1976d2;
+            margin-bottom: 0.5rem;
+        }
+        
+        .support-info a {
+            color: #1976d2;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .support-info a:hover {
+            text-decoration: underline;
+        }
+        
+        .social-share {
+            margin-top: 2rem;
+        }
+        
+        .social-share h3 {
+            margin-bottom: 1rem;
+            color: #2c3e50;
+        }
+        
+        .share-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .share-btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .share-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .share-btn.facebook {
+            background: #3b5998;
+        }
+        
+        .share-btn.twitter {
+            background: #1da1f2;
+        }
+        
+        .share-btn.linkedin {
+            background: #0077b5;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .header {
+                padding: 2rem 1.5rem;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .content {
+                padding: 2rem 1.5rem;
+            }
+            
+            .share-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .share-btn {
+                width: 100%;
+                max-width: 200px;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="success-card">
+            <div class="header">
+                <div class="checkmark">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                </div>
+                <h1>Payment Successful!</h1>
+                <p>Thank you for your purchase</p>
+            </div>
+            
+            <div class="content">
+                <div class="order-details">
+                    <h3>Order Summary</h3>
+                    <div class="detail-row">
+                        <span>Order Number:</span>
+                        <span id="orderNumber">Loading...</span>
+                    </div>
+                    <div class="detail-row">
+                        <span>Product:</span>
+                        <span id="productName">Digital Course</span>
+                    </div>
+                    <div class="detail-row">
+                        <span>Email:</span>
+                        <span id="customerEmail">Will be sent to your email</span>
+                    </div>
+                    <div class="detail-row">
+                        <span>Total Paid:</span>
+                        <span id="totalAmount">$97.00</span>
+                    </div>
+                </div>
+                
+                <div class="next-steps">
+                    <h3>What Happens Next?</h3>
+                    <ul>
+                        <li>You'll receive a confirmation email within 5 minutes</li>
+                        <li>Course access details will be sent to your email</li>
+                        <li>Check your spam folder if you don't see the email</li>
+                        <li>Your course access is lifetime - no expiration!</li>
+                    </ul>
+                </div>
+                
+                <div class="support-info">
+                    <h3>Need Help?</h3>
+                    <p>If you have any questions or need assistance:</p>
+                    <p>Email: <a href="mailto:support@genwiselearning.com">support@genwiselearning.com</a></p>
+                    <p>We typically respond within 24 hours</p>
+                </div>
+                
+                <div class="social-share">
+                    <h3>Share Your Success!</h3>
+                    <div class="share-buttons">
+                        <a href="#" class="share-btn facebook" id="facebookShare">
+                            <span>Share on Facebook</span>
+                        </a>
+                        <a href="#" class="share-btn twitter" id="twitterShare">
+                            <span>Share on Twitter</span>
+                        </a>
+                        <a href="#" class="share-btn linkedin" id="linkedinShare">
+                            <span>Share on LinkedIn</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Analytics tracking
+        function trackEvent(eventName, eventData = {}) {
+            // Google Analytics
+            if (typeof gtag !== 'undefined') {
+                gtag('event', eventName, eventData);
+            }
+            
+            // Facebook Pixel
+            if (typeof fbq !== 'undefined') {
+                fbq('track', eventName, eventData);
+            }
+            
+            console.log('Tracked event:', eventName, eventData);
+        }
+
+        // Extract URL parameters
+        function getUrlParameter(name) {
+            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+            const regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+            const results = regex.exec(location.search);
+            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get parameters from URL (Stripe usually includes session_id)
+            const sessionId = getUrlParameter('session_id');
+            const source = getUrlParameter('source') || 'checkout';
+            
+            // Update order number
+            if (sessionId) {
+                document.getElementById('orderNumber').textContent = sessionId.substring(0, 16) + '...';
+            } else {
+                document.getElementById('orderNumber').textContent = 'CS-' + Math.random().toString(36).substr(2, 9).toUpperCase();
+            }
+            
+            // Track conversion
+            trackEvent('Purchase', {
+                transaction_id: sessionId || 'unknown',
+                value: 97, // You might want to make this dynamic based on the product
+                currency: 'USD',
+                content_type: 'product',
+                content_name: 'Digital Course'
+            });
+            
+            // Track page view
+            trackEvent('ViewContent', {
+                content_type: 'success_page',
+                content_name: 'Purchase Success'
+            });
+            
+            // Setup social sharing
+            const shareText = "Just completed an amazing digital course! 🎓 #learning #growth";
+            const shareUrl = window.location.origin;
+            
+            document.getElementById('facebookShare').href = 
+                `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`;
+            
+            document.getElementById('twitterShare').href = 
+                `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`;
+            
+            document.getElementById('linkedinShare').href = 
+                `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`;
+            
+            // Track social sharing clicks
+            document.querySelectorAll('.share-btn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    const platform = this.classList.contains('facebook') ? 'Facebook' : 
+                                   this.classList.contains('twitter') ? 'Twitter' : 'LinkedIn';
+                    
+                    trackEvent('Share', {
+                        method: platform,
+                        content_type: 'success_page',
+                        content_id: sessionId || 'unknown'
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>

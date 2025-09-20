@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Checkout - GenWise Learning</title>
+    <meta name="description" content="Complete your purchase securely with our digital course checkout">
+    
+    <!-- Preconnect to external domains for performance -->
+    <link rel="preconnect" href="https://checkout.stripe.com">
+    <link rel="preconnect" href="https://checkout.genwiselearning.com">
+    
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'GA_MEASUREMENT_ID');
+    </script>
+    
+    <!-- Facebook Pixel -->
+    <script>
+        !function(f,b,e,v,n,t,s)
+        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+        n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t,s)}(window, document,'script',
+        'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', 'YOUR_PIXEL_ID');
+        fbq('track', 'PageView');
+    </script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .checkout-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+            width: 100%;
+            max-width: 600px;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+        
+        .content {
+            padding: 2rem;
+        }
+        
+        .product-selection {
+            margin-bottom: 2rem;
+        }
+        
+        .product-option {
+            border: 2px solid #e1e8ed;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .product-option:hover {
+            border-color: #667eea;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+        }
+        
+        .product-option.selected {
+            border-color: #667eea;
+            background: #f8f9ff;
+        }
+        
+        .product-option input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+        }
+        
+        .product-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+        }
+        
+        .product-description {
+            color: #666;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+        
+        .product-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #27ae60;
+        }
+        
+        .product-badge {
+            background: #e74c3c;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-left: 1rem;
+        }
+        
+        .checkout-button {
+            width: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .checkout-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+        }
+        
+        .checkout-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .loading {
+            display: none;
+        }
+        
+        .loading.active {
+            display: inline-block;
+            margin-left: 0.5rem;
+        }
+        
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .security-info {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1.5rem;
+            text-align: center;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .security-info svg {
+            width: 16px;
+            height: 16px;
+            margin-right: 0.5rem;
+            vertical-align: middle;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .content {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="checkout-card">
+            <div class="header">
+                <h1>Complete Your Purchase</h1>
+                <p>Secure checkout powered by Stripe</p>
+            </div>
+            
+            <div class="content">
+                <div class="product-selection">
+                    <div class="product-option" data-price-id="price_1S7eKr1HNISwTOYTAbqRF3HW">
+                        <input type="radio" name="product" value="course1" id="course1">
+                        <label for="course1">
+                            <div class="product-title">Digital Course - Foundation</div>
+                            <div class="product-description">
+                                Complete digital course with lifetime access, downloadable resources, and email support.
+                            </div>
+                            <div class="product-price">$97</div>
+                        </label>
+                    </div>
+                    
+                    <div class="product-option" data-price-id="PRICE_ID_FOR_BUNDLE">
+                        <input type="radio" name="product" value="bundle" id="bundle">
+                        <label for="bundle">
+                            <div class="product-title">
+                                Course Bundle - Foundation + Advanced
+                                <span class="product-badge">Best Value</span>
+                            </div>
+                            <div class="product-description">
+                                Both foundation and advanced courses, bonus materials, 1-on-1 consultation call, and priority support.
+                            </div>
+                            <div class="product-price">$197</div>
+                        </label>
+                    </div>
+                </div>
+                
+                <button class="checkout-button" id="checkoutBtn" disabled>
+                    Select a Product to Continue
+                    <div class="loading" id="loading">
+                        <div class="spinner"></div>
+                    </div>
+                </button>
+                
+                <div class="security-info">
+                    <svg fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/>
+                    </svg>
+                    Secure 256-bit SSL encryption. Your payment information is safe and secure.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Configuration
+        const CONFIG = {
+            backendUrl: 'https://checkout.genwiselearning.com',
+            successUrl: window.location.origin + '/success.html',
+            cancelUrl: window.location.origin
+        };
+
+        // Analytics tracking
+        function trackEvent(eventName, eventData = {}) {
+            // Google Analytics
+            if (typeof gtag !== 'undefined') {
+                gtag('event', eventName, eventData);
+            }
+            
+            // Facebook Pixel
+            if (typeof fbq !== 'undefined') {
+                fbq('track', eventName, eventData);
+            }
+            
+            console.log('Tracked event:', eventName, eventData);
+        }
+
+        // Track page view
+        trackEvent('ViewContent', {
+            content_type: 'checkout_page',
+            content_name: 'Digital Course Checkout'
+        });
+
+        // Product selection handling
+        const productOptions = document.querySelectorAll('.product-option');
+        const checkoutBtn = document.getElementById('checkoutBtn');
+        const loading = document.getElementById('loading');
+        let selectedPriceId = null;
+        let selectedProduct = null;
+
+        productOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                // Remove selected class from all options
+                productOptions.forEach(opt => opt.classList.remove('selected'));
+                
+                // Add selected class to clicked option
+                option.classList.add('selected');
+                
+                // Update radio button
+                const radio = option.querySelector('input[type="radio"]');
+                radio.checked = true;
+                
+                // Store selection
+                selectedPriceId = option.dataset.priceId;
+                selectedProduct = radio.value;
+                
+                // Update button
+                checkoutBtn.disabled = false;
+                checkoutBtn.textContent = 'Proceed to Secure Checkout';
+                
+                // Track selection
+                trackEvent('AddToCart', {
+                    content_type: 'product',
+                    content_ids: [selectedPriceId],
+                    content_name: selectedProduct,
+                    value: selectedProduct === 'course1' ? 97 : 197,
+                    currency: 'USD'
+                });
+            });
+        });
+
+        // Checkout button handling
+        checkoutBtn.addEventListener('click', async () => {
+            if (!selectedPriceId) return;
+            
+            // Show loading state
+            checkoutBtn.disabled = true;
+            checkoutBtn.textContent = 'Creating secure session...';
+            loading.classList.add('active');
+            
+            // Track checkout initiation
+            trackEvent('InitiateCheckout', {
+                content_type: 'product',
+                content_ids: [selectedPriceId],
+                content_name: selectedProduct,
+                value: selectedProduct === 'course1' ? 97 : 197,
+                currency: 'USD'
+            });
+            
+            try {
+                const response = await fetch(`${CONFIG.backendUrl}/create-checkout-session`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        price_id: selectedPriceId,
+                        success_url: CONFIG.successUrl,
+                        cancel_url: CONFIG.cancelUrl
+                    })
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                
+                // Track successful checkout session creation
+                trackEvent('BeginCheckout', {
+                    content_type: 'product',
+                    content_ids: [selectedPriceId],
+                    content_name: selectedProduct,
+                    value: selectedProduct === 'course1' ? 97 : 197,
+                    currency: 'USD'
+                });
+                
+                // Redirect to Stripe checkout
+                window.location.href = data.url;
+                
+            } catch (error) {
+                console.error('Checkout error:', error);
+                
+                // Track error
+                trackEvent('CheckoutError', {
+                    error_message: error.message,
+                    content_name: selectedProduct
+                });
+                
+                // Reset button state
+                checkoutBtn.disabled = false;
+                checkoutBtn.textContent = 'Try Again';
+                loading.classList.remove('active');
+                
+                alert('There was an error processing your request. Please try again.');
+            }
+        });
+
+        // Track abandoned checkout
+        let checkoutStarted = false;
+        window.addEventListener('beforeunload', () => {
+            if (selectedPriceId && !checkoutStarted) {
+                trackEvent('AbandonCheckout', {
+                    content_type: 'product',
+                    content_ids: [selectedPriceId],
+                    content_name: selectedProduct
+                });
+            }
+        });
+    </script>
+</body>
+</html>
